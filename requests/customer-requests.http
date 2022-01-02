@@ -8,3 +8,10 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8082/api/v1/notify
+Content-Type: application/json
+
+{
+  "message": "Test Message",
+  "sender": "Test Request Service"
+}
