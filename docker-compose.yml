@@ -1,3 +1,5 @@
+version: '2.4'
+
 services:
   postgres-customer:
     container_name: postgres-customer
@@ -41,6 +43,11 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+        - "9411:9411"
 
 networks:
   postgres:
