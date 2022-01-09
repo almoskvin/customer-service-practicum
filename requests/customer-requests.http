@@ -1,3 +1,4 @@
+### Register customer directly
 POST http://localhost:8080/api/v1/customers
 Content-Type: application/json
 
@@ -5,6 +6,16 @@ Content-Type: application/json
   "firstName": "John",
   "lastName": "Doe",
   "email": "john@mail.com"
+}
+
+### Register customer via load balancer (api-gateway)
+POST http://localhost:8083/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "jane@mail.com"
 }
 
 ###
