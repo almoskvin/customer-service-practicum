@@ -1,21 +1,19 @@
-package com.github.almoskvin;
+package com.github.almoskvin.customer;
 
+import com.github.almoskvin.amqp.RabbitMQMessageProducer;
 import com.github.almoskvin.clients.fraud.FraudCheckResponse;
 import com.github.almoskvin.clients.fraud.FraudClient;
-import com.github.almoskvin.clients.notification.NotificationClient;
 import com.github.almoskvin.clients.notification.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository repository;
-    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer messageProducer;
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -34,7 +32,11 @@ public class CustomerService {
 
         String message = String.format("Customer %s, %s verified and registered", customer.getLastName(), customer.getFirstName());
         NotificationRequest notificationRequest = new NotificationRequest(message, "Customer Service", customer.getId(), customer.getEmail());
-        notificationClient.notify(notificationRequest);
+
+        messageProducer.publish(notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 }
 

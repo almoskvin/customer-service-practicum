@@ -1,4 +1,4 @@
-package com.github.almoskvin;
+package com.github.almoskvin.customer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

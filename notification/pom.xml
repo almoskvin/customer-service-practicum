@@ -15,6 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <feign-clients.version>1.0-SNAPSHOT</feign-clients.version>
+        <amqp.module.version>1.0-SNAPSHOT</amqp.module.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,15 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.almoskvin</groupId>
+            <artifactId>amqp</artifactId>
+            <version>${amqp.module.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.almoskvin</groupId>
