@@ -1,5 +1,8 @@
 # Default ignored files
 */.idea
+.idea
+*/.vscode
+.vscode
 */.
 *.iml
 */target
