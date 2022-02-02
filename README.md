@@ -6,4 +6,4 @@ Practicum for a course "Microservices and Distributed Systems"
 https://amigoscode.com/courses/1614673
 
 ### Deployment diagram
-![img.png](deployment_diagram.svg)
+![deployment_diagram](deployment_diagram.svg)
