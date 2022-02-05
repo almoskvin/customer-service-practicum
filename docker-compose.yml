@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - postgres-customer
     restart: unless-stopped
   postgres-fraud:
     container_name: postgres-fraud
@@ -27,7 +27,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - postgres
+      - postgres-fraud
     restart: unless-stopped
   postgres-notification:
     container_name: postgres-notification
@@ -41,22 +41,99 @@ services:
     ports:
       - "5434:5432"
     networks:
-      - postgres
+      - postgres-notification
     restart: unless-stopped
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
     ports:
-        - "9411:9411"
+      - "9411:9411"
+    networks:
+      - spring
   rabbitmq:
     image: rabbitmq:3.9.12-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
-
+    networks:
+      - spring
+  eureka-server:
+    image: esquire/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+  apigw:
+    image: esquire/apigw:latest
+    container_name: apigw
+    ports:
+      - "8083:8083"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - eureka-server
+  customer:
+    image: esquire/customer:latest
+    container_name: customer
+    ports:
+      - "8080:8080"
+    networks:
+      - spring
+      - postgres-customer
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-customer
+      - zipkin
+      - rabbitmq
+      - eureka-server
+  fraud:
+    image: esquire/fraud:latest
+    container_name: fraud
+    ports:
+      - "8081:8081"
+    networks:
+      - spring
+      - postgres-fraud
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-fraud
+      - zipkin
+      - eureka-server
+  notification:
+    image: esquire/notification:latest
+    container_name: notification
+    ports:
+      - "8082:8082"
+    networks:
+      - spring
+      - postgres-notification
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-notification
+      - zipkin
+      - rabbitmq
+      - eureka-server
+  
 networks:
-  postgres:
+  postgres-customer:
+    driver: bridge
+  postgres-fraud:
+    driver: bridge
+  postgres-notification:
+    driver: bridge
+  spring:
     driver: bridge
 
 volumes:

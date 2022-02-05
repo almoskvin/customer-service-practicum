@@ -20,6 +20,20 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>build-docker-image</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <properties>
         <feign-clients.version>1.0-SNAPSHOT</feign-clients.version>
         <amqp.module.version>1.0-SNAPSHOT</amqp.module.version>
