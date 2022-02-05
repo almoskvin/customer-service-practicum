@@ -15,7 +15,7 @@
     <module>eureka-server</module>
     <module>clients</module>
     <module>notification</module>
-      <module>apigw</module>
+    <module>apigw</module>
     <module>amqp</module>
   </modules>
 
@@ -26,6 +26,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     <spring-boot.version>2.6.2</spring-boot.version>
     <spring.cloud-version>2021.0.0</spring.cloud-version>
     <lombok.version>1.18.22</lombok.version>
@@ -75,9 +76,22 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring-boot.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
-
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+      </plugin>
+    </plugins>
   </build>
 </project>
